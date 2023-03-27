@@ -1,3 +1,3 @@
 # Salt State Files
 
-> State files I use for setting up, updating, and upgrading servers.
+> State files I use for automating set up, updates, and upgrades to servers.
