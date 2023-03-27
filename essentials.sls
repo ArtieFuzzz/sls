@@ -2,8 +2,7 @@
 {% if grains['osfinger'] == 'Debian-11' %}
 install_tailscale_repo:
   cmd.run:
-    - name: |
-        'curl -fsSL https://pkgs.tailscale.com/stable/debian/bullseye.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
+    - name: 'curl -fsSL https://pkgs.tailscale.com/stable/debian/bullseye.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
   pkgrepo.managed:
     - humanname: Tailscale
     - name: deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/debian bullseye main
@@ -15,8 +14,7 @@ install_tailscale_repo:
 {% elif grains['osfinger'] == 'Ubuntu-22.04' %}
 install_tailscale_repo:
   cmd.run:
-    - name: |
-        'curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
+    - name: 'curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
   pkgrepo.managed:
     - humanname: Tailscale
     - name: deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu jammy main
@@ -28,8 +26,7 @@ install_tailscale_repo:
 {% elif grains['osfinger'] == 'Ubuntu-21.10' %}
 install_tailscale_repo:
   cmd.run:
-    - name: |
-        'curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/impish.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
+    - name: 'curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/impish.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
   pkgrepo.managed:
     - humanname: Tailscale
     - name: deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu impish main
