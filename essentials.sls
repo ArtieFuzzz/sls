@@ -78,7 +78,7 @@ install_elixir:
   cmd.run:
     - name: cd ~/elixir
   cmd.run:
-    - name: make clean test
+    - name: make install
   # Check if the line already exists
-  cmd.run:
-    - name: grep -qxF 'export PATH="$PATH:~/elixir/bin"' ~/.profile || echo 'export PATH="$PATH:~/elixir/bin"' >> ~/.profile
+  # cmd.run:
+  #  - name: grep -qxF 'export PATH="$PATH:~/elixir/bin"' ~/.profile || echo 'export PATH="$PATH:~/elixir/bin"' >> ~/.profile
