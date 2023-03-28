@@ -74,9 +74,9 @@ install_pkgs:
 # Installs Elixir from Source
 install_elixir:
   cmd.run:
-    - name: |
-        git clone https://github.com/elixir-lang/elixir.git ~/elixir
-        cd ~/elixir
-        make install
+    - name:
+      - git clone https://github.com/elixir-lang/elixir.git ~/elixir
+      - cd ~/elixir
+      - make install
       # Check if the line already exists
       # grep -qxF 'export PATH="$PATH:~/elixir/bin"' ~/.profile || echo 'export PATH="$PATH:~/elixir/bin"' >> ~/.profile
