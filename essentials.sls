@@ -2,7 +2,7 @@
 {% if grains['osfinger'] == 'Debian-11' %}
 install_tailscale_repo:
   cmd.run:
-    - name: 'curl -fsSL https://pkgs.tailscale.com/stable/debian/bullseye.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
+    - name: curl -fsSL https://pkgs.tailscale.com/stable/debian/bullseye.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
     - failhard: true
   pkgrepo.managed:
     - humanname: Tailscale
@@ -13,10 +13,17 @@ install_tailscale_repo:
     - aptkey: false
     - failhard: true
 
+install_erlang:
+  cmd.run:
+    - name: wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb -O /tmp/erlang.deb
+    - failhard: true
+  cmd.run:
+    - name: sudo dpkg -i /tmp/erlang.deb
+
 {% elif grains['osfinger'] == 'Ubuntu-22.04' %}
 install_tailscale_repo:
   cmd.run:
-    - name: 'curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
+    - name: curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
   pkgrepo.managed:
     - humanname: Tailscale
     - name: deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu jammy main
@@ -29,7 +36,7 @@ install_tailscale_repo:
 {% elif grains['osfinger'] == 'Ubuntu-21.10' %}
 install_tailscale_repo:
   cmd.run:
-    - name: 'curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/impish.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null'
+    - name: curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/impish.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
   pkgrepo.managed:
     - humanname: Tailscale
     - name: deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu impish main
@@ -46,7 +53,11 @@ install_tailscale_repo:
 
 update_packages:
   cmd.run:
-    - name: 'apt-get update -y && apt-get upgrade -y'
+    - name: apt-get update -y && apt-get upgrade -y
+
+install_rust:
+  cmd.run:
+    - name: curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 install_pkgs:
   pkg.installed:
@@ -56,5 +67,18 @@ install_pkgs:
       - htop
       - build-essential
       - pkg-config
+      - esl-erlang
       - libssl-dev
       - gnupg
+
+# Installs Elixir from Source
+install_elixir:
+  cmd.run:
+    - name: git clone https://github.com/elixir-lang/elixir.git ~/elixir
+  cmd.run:
+    - name: cd ~/elixir
+  cmd.run:
+    - name: make clean test
+  # Check if the line already exists
+  cmd.run:
+    - name: grep -qxF 'export PATH="$PATH:~/elixir/bin"' ~/.profile || echo 'export PATH="$PATH:~/elixir/bin"' >> ~/.profile
