@@ -68,6 +68,11 @@ install_pkgs:
       - libssl-dev
       - gnupg
 
+create_required_dirs:
+  cmd.run:
+    - name:
+      - mkdir -p /srv/logflare_agent
+
 install_logflare_agent:
   cmd.run:
     - name:
