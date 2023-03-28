@@ -15,10 +15,10 @@ install_tailscale_repo:
 
 install_erlang:
   cmd.run:
-    - name: wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb --output /tmp/erlang.deb
+    - name: |
+        wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb --output /tmp/erlang.deb
+        sudo dpkg -i /tmp/erlang.deb
     - failhard: true
-  cmd.run:
-    - name: sudo dpkg -i /tmp/erlang.deb
 
 {% elif grains['osfinger'] == 'Ubuntu-22.04' %}
 install_tailscale_repo:
@@ -74,11 +74,9 @@ install_pkgs:
 # Installs Elixir from Source
 install_elixir:
   cmd.run:
-    - name: git clone https://github.com/elixir-lang/elixir.git ~/elixir
-  cmd.run:
-    - name: cd ~/elixir
-  cmd.run:
-    - name: make install
-  # Check if the line already exists
-  # cmd.run:
-  #  - name: grep -qxF 'export PATH="$PATH:~/elixir/bin"' ~/.profile || echo 'export PATH="$PATH:~/elixir/bin"' >> ~/.profile
+    - name: |
+        git clone https://github.com/elixir-lang/elixir.git ~/elixir
+        cd ~/elixir
+        make install
+      # Check if the line already exists
+      # grep -qxF 'export PATH="$PATH:~/elixir/bin"' ~/.profile || echo 'export PATH="$PATH:~/elixir/bin"' >> ~/.profile
