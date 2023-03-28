@@ -55,14 +55,6 @@ update_packages:
   cmd.run:
     - name: apt-get update -y && apt-get upgrade -y
 
-install_rust:
-  cmd.run:
-    - name:
-      - curl https://sh.rustup.rs -sSf | sh -s -- -y
-      - source "$HOME/.cargo/env"
-
-    - failhard: true
-
 install_pkgs:
   pkg.installed:
     - pkgs:
