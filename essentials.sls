@@ -71,8 +71,9 @@ install_pkgs:
 install_logflare_agent:
   cmd.run:
     - name:
-      - git clone https://github.com/Logflare/logflare_agent.git /srv/logflare_agent
+      - git clone https://github.com/Logflare/logflare_agent.git .
       - cd /srv/logflare_agent
       - mix deps.get
       - mix release
       - _build/dev/rel/logflare_agent/bin/logflare_agent start
+    - cwd: /srv/logflare_agent
