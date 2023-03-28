@@ -72,15 +72,15 @@ install_pkgs:
       - build-essential
       - pkg-config
       - esl-erlang
+      - elixir
       - libssl-dev
       - gnupg
 
-# Installs Elixir from Source
-install_elixir:
+install_logflare_agent:
   cmd.run:
     - name:
-      - git clone https://github.com/elixir-lang/elixir.git ~/elixir
-      - cd ~/elixir
-      - make install
-      # Check if the line already exists
-      # grep -qxF 'export PATH="$PATH:~/elixir/bin"' ~/.profile || echo 'export PATH="$PATH:~/elixir/bin"' >> ~/.profile
+      - git clone https://github.com/Logflare/logflare_agent.git /srv/logflare_agent
+      - cd /srv/logflare_agent
+      - mix deps.get
+      - mix release
+      - _build/dev/rel/logflare_agent/bin/logflare_agent start
