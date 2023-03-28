@@ -47,7 +47,7 @@ install_tailscale_repo:
     - failhard: true
 
 {% else %}
-  'This OS is not supported'
+  This OS is not supported
 {% endif %}
 
 
