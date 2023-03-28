@@ -16,7 +16,7 @@ install_tailscale_repo:
 install_erlang:
   cmd.run:
     - name: |
-        wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb --output /tmp/erlang.deb
+        curl https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb --output /tmp/erlang.deb
         sudo dpkg -i /tmp/erlang.deb
     - failhard: true
 
