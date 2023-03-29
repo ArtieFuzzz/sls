@@ -1,3 +1,12 @@
+############################################
+# Install Essential Packages
+#
+# This installs:
+# - Tailscale | Remote Access
+# - Fluent-Bit | Logging & Metrics processing
+# - Essential packages
+############################################
+
 # Install Tailscale Key & Repo
 # Install Fluent-bit key & Repo
 {% if grains['osfinger'] == 'Debian-11' %}
@@ -100,6 +109,7 @@ install_pkgs:
       - pkg-config
       - libssl-dev
       - gnupg
+      - ca-certificates
 
 start_fluentbit:
   service.running:
