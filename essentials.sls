@@ -99,3 +99,8 @@ install_pkgs:
       - pkg-config
       - libssl-dev
       - gnupg
+
+start_fluentbit:
+  service.running:
+    - name: fluent-bit
+    - enable: true
