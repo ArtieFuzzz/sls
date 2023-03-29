@@ -1,4 +1,5 @@
 # Install Tailscale Key & Repo
+# Install Fluent-bit key & Repo
 {% if grains['osfinger'] == 'Debian-11' %}
 install_tailscale_repo:
   cmd.run:
@@ -13,11 +14,17 @@ install_tailscale_repo:
     - aptkey: false
     - failhard: true
 
-install_erlang:
+install_fluentbit_repo:
   cmd.run:
-    - name: |
-        curl https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb --output /tmp/erlang.deb
-        sudo dpkg -i /tmp/erlang.deb
+    - name: curl https://packages.fluentbit.io/fluentbit.key | gpg --dearmor > /usr/share/keyrings/fluentbit-keyring.gpg
+    - failhard: true
+  pkgrepo.managed:
+    - humanname: Fluent Bit
+    - name: deb [signed-by=/usr/share/keyrings/fluentbit-keyring.gpg] https://packages.fluentbit.io/debian/bullseye bullseye main
+    - file: /etc/apt/sources.list.d/fluentbit.list
+    - key_url: https://packages.fluentbit.io/fluentbit.key
+    - gpgcheck: 1
+    - aptkey: false
     - failhard: true
 
 {% elif grains['osfinger'] == 'Ubuntu-22.04' %}
@@ -30,6 +37,19 @@ install_tailscale_repo:
     - file: /etc/apt/sources.list.d/tailscale.list
     - gpgcheck: 1
     - key_url: https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg
+    - aptkey: false
+    - failhard: true
+
+install_fluentbit_repo:
+  cmd.run:
+    - name: curl https://packages.fluentbit.io/fluentbit.key | gpg --dearmor > /usr/share/keyrings/fluentbit-keyring.gpg
+    - failhard: true
+  pkgrepo.managed:
+    - humanname: Fluent Bit
+    - name: deb [signed-by=/usr/share/keyrings/fluentbit-keyring.gpg] https://packages.fluentbit.io/ubuntu/jammy jammy main
+    - file: /etc/apt/sources.list.d/fluentbit.list
+    - key_url: https://packages.fluentbit.io/fluentbit.key
+    - gpgcheck: 1
     - aptkey: false
     - failhard: true
 
@@ -46,6 +66,19 @@ install_tailscale_repo:
     - aptkey: false
     - failhard: true
 
+install_fluentbit_repo:
+  cmd.run:
+    - name: curl https://packages.fluentbit.io/fluentbit.key | gpg --dearmor > /usr/share/keyrings/fluentbit-keyring.gpg
+    - failhard: true
+  pkgrepo.managed:
+    - humanname: Fluent Bit
+    - name: deb [signed-by=/usr/share/keyrings/fluentbit-keyring.gpg] https://packages.fluentbit.io/ubuntu/impish impish main
+    - file: /etc/apt/sources.list.d/fluentbit.list
+    - key_url: https://packages.fluentbit.io/fluentbit.key
+    - gpgcheck: 1
+    - aptkey: false
+    - failhard: true
+
 {% else %}
   This OS is not supported
 {% endif %}
@@ -59,26 +92,10 @@ install_pkgs:
   pkg.installed:
     - pkgs:
       - tailscale
+      - fluent-bit
       - curl
       - htop
       - build-essential
       - pkg-config
-      - esl-erlang
-      - elixir
       - libssl-dev
       - gnupg
-
-create_required_dirs:
-  cmd.run:
-    - name:
-      - mkdir -p /srv/logflare_agent
-
-install_logflare_agent:
-  cmd.run:
-    - name:
-      - git clone https://github.com/Logflare/logflare_agent.git .
-      - cd /srv/logflare_agent
-      - mix deps.get
-      - mix release
-      - _build/dev/rel/logflare_agent/bin/logflare_agent start
-    - cwd: /srv/logflare_agent
