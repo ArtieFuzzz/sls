@@ -92,6 +92,7 @@ install_pkgs:
   pkg.installed:
     - pkgs:
       - tailscale
+      - vim
       - fluent-bit
       - curl
       - htop
