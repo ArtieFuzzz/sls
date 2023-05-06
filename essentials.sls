@@ -92,6 +92,15 @@ install_fluentbit_repo:
   This OS is not supported
 {% endif %}
 
+download_btop:
+  cmd.run:
+    - cwd: /tmp
+    - name: wget https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz && tar -xvjf btop-x86_64-linux-musl.tbz
+
+install_btop:
+  cmd.run:
+    - cwd: /tmp/tar -xvjf btop-x86_64-linux-musl
+    - name: make install
 
 update_packages:
   cmd.run:
@@ -104,7 +113,6 @@ install_pkgs:
       - vim
       - fluent-bit
       - curl
-      - htop
       - build-essential
       - pkg-config
       - libssl-dev
