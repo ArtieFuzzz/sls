@@ -99,7 +99,7 @@ download_btop:
 
 install_btop:
   cmd.run:
-    - cwd: /tmp/tar -xvjf btop-x86_64-linux-musl
+    - cwd: /tmp/btop
     - name: make install
 
 update_packages:
