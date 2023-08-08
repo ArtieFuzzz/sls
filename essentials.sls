@@ -92,16 +92,6 @@ install_fluentbit_repo:
   This OS is not supported
 {% endif %}
 
-download_btop:
-  cmd.run:
-    - cwd: /tmp
-    - name: wget https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz && tar -xvjf btop-x86_64-linux-musl.tbz
-
-install_btop:
-  cmd.run:
-    - cwd: /tmp/btop
-    - name: make install
-
 update_packages:
   cmd.run:
     - name: apt-get update -y && apt-get upgrade -y
@@ -118,6 +108,15 @@ install_pkgs:
       - libssl-dev
       - gnupg
       - ca-certificates
+
+install_btop:
+  cmd.run:
+    - cwd: /tmp
+    - name: | 
+      wget https://github.com/aristocratos/btop/releases/download/v1.2.13/btop-x86_64-linux-musl.tbz && tar -xvjf btop-x86_64-linux-musl.tbz
+      cd btop
+      make install
+    - unless: 'which btop'
 
 start_fluentbit:
   service.running:
