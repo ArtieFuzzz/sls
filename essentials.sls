@@ -120,6 +120,6 @@ install_pkgs:
       - ca-certificates
 
 start_fluentbit:
-  service.dead:
+  service.running:
     - name: fluent-bit
-    - enable: false
+    - enable: true
