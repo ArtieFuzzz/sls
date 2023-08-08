@@ -122,4 +122,4 @@ install_pkgs:
 start_fluentbit:
   service.running:
     - name: fluent-bit
-    - enable: true
+    - enable: false
